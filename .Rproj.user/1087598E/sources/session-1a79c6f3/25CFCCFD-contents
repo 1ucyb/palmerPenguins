@@ -1,0 +1,26 @@
+# Installing packages
+
+library(tidyverse)
+library(palmerpenguins)
+library(here)
+library(janitor)
+
+# Accesses functions
+source(here("functions", "cleaning.R"))
+
+# Saving raw data as .csv
+
+write_csv(penguins_raw, here("data", "penguins_raw.csv"))
+penguins_raw <- read_csv(here("data", "penguins_raw.csv"))
+
+# Cleaning data
+
+penguins_clean <- penguins_raw %>%
+  clean_column_names() %>%
+  remove_columns(c("comments", "delta")) %>%
+  shorten_species() %>%
+  remove_empty_columns_rows()
+
+# Writes clean output as .csv
+
+write_csv(penguins_clean, here("data", "penguins_clean.csv"))
